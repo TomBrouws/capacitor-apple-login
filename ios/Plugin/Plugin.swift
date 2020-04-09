@@ -36,14 +36,24 @@ extension SignInWithApple: ASAuthorizationControllerDelegate {
             return
         }
 
+		var identityToken: String? = nil
+		if let identityToken1 = appleIDCredential.identityToken {
+			identityToken = String(data: identityToken1, encoding: .utf8)
+		}
+
+		var authorizationCode: String? = nil
+		if let authorizationCode1 = appleIDCredential.authorizationCode {
+			authorizationCode = String(data: authorizationCode1, encoding: .utf8)
+		}
+
         let result = [
             "response": [
                 "user": appleIDCredential.user,
                 "email": appleIDCredential.email,
                 "givenName": appleIDCredential.fullName?.givenName,
                 "familyName": appleIDCredential.fullName?.familyName,
-                "identityToken": String(data: appleIDCredential.identityToken!, encoding: .utf8),
-                "authorizationCode": String(data: appleIDCredential.authorizationCode!, encoding: .utf8)
+                "identityToken": identityToken,
+                "authorizationCode": authorizationCode
             ]
         ]
 
